@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Program\C\Experiment\Extra-Experiment-SSP\client\client.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Program\C\Experiment\Extra-Experiment-SSP\client\src\account.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Program\C\Experiment\Extra-Experiment-SSP\client\src\hash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Program\C\Experiment\Extra-Experiment-SSP\client\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{D6013656-EA2D-358D-A9A1-1532CF075FF5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

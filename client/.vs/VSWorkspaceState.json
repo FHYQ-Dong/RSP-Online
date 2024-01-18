@@ -1,0 +1,14 @@
+{
+  "OutputFoldersPerTargetSystem": {
+    "本地计算机": [
+      "build",
+      "install"
+    ]
+  },
+  "ExpandedNodes": [
+    "",
+    "\\src"
+  ],
+  "SelectedNode": "\\src\\hash.c",
+  "PreviewInSolutionExplorer": false
+}
