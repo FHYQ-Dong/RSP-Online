@@ -6,6 +6,7 @@ static void get_username(string username, size_t length, LOGIN_TYPE type);
 static void get_passwd(string passwd, size_t length, LOGIN_TYPE type);
 static void login_account(Account *account);
 static void register_account(Account *account);
+static void to_str(Account *account, string str);
 
 Account new_Account() {
     /*
@@ -19,6 +20,7 @@ Account new_Account() {
     
     account.login_account = login_account;
     account.register_account = register_account;
+    account.to_str = to_str;
     return account;
 }
 
@@ -126,4 +128,16 @@ static void register_account(Account *account) {
     get_username(account->username, MAX_ACCOUNT_LENGTH, REGISTER);
     get_passwd(account->passwd, MAX_ACCOUNT_LENGTH, REGISTER);
     hash_with_salt(account->passwd, strlen(account->passwd), account->passwd_hash);
+}
+
+void to_str(Account *account, string str) {
+    /*
+    * @param account: the account to be converted
+    * @param str: the buffer to store the converted string
+    * @description: convert an account to string
+    */
+    for (int i = 0; i < MAX_ACCOUNT_LENGTH; i++) {
+        str[i] = account->username[i];
+        str[i + MAX_ACCOUNT_LENGTH] = account->passwd[i];
+    }
 }

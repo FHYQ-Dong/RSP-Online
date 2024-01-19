@@ -9,6 +9,12 @@
 
 #pragma  comment(lib, "ws2_32.lib")
 
+#define MSG_LEN 1024
+
+#define CONN(conn, ip, port) if (conn.connect(conn, ip, port) == SOCKET_ERROR) exit(1)
+#define SEND(conn, data, len) if (conn.send(conn, data, len) == SOCKET_ERROR) exit(1)
+#define RECV(conn, data, len) if (conn.recv(conn, data, len) == SOCKET_ERROR) exit(1)
+
 typedef struct Connection {
     SOCKET sock;
 

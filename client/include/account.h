@@ -24,6 +24,7 @@ typedef struct Account {
 
     void (*login_account)(struct Account *account);
     void (*register_account)(struct Account *account);
+    void (*to_str)(struct Account *account, string str);
 } Account;
 
 Account new_Account();
