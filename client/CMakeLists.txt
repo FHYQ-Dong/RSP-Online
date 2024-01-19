@@ -20,3 +20,5 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME} ws2_32.lib)
 
 # install target
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+
+#test
