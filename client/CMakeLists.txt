@@ -17,5 +17,3 @@ add_executable(${PROJECT_NAME} client.c ${SOURCES} ${HEADERS})
 
 # install target
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
-
-#test
