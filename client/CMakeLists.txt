@@ -15,5 +15,8 @@ AUX_SOURCE_DIRECTORY(include/ HEADERS)
 # Add executable target
 add_executable(${PROJECT_NAME} client.c ${SOURCES} ${HEADERS})
 
+# Link Libraries
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ws2_32.lib)
+
 # install target
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
