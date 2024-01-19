@@ -9,8 +9,8 @@
 #include "hash.h"
 #pragma warning(disable: 4996)
 
-#define MAX_ACCOUNT_LENGTH 51
-#define MAX_PASSWD_LENGTH 51
+#define MAX_ACCOUNT_LENGTH 50
+#define MAX_PASSWD_LENGTH 50
 typedef char* string;
 
 typedef int LOGIN_TYPE;

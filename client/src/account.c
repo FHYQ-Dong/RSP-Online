@@ -49,42 +49,19 @@ static void get_passwd(string passwd, size_t length, LOGIN_TYPE type) {
     * @param length: the length of the buffer
     * @description: get the password from console
     */
-    printf("Please input your password (maximum %llu characters): ", length - 1);
-    if (length == 0) {
-        printf("Password too long!\n");
-        exit(1);
-    }
-    char ch;
-    int i = 0;
-    while ((ch = getch()) != '\r') {
-        if (ch == '\b') {
-            if (i == 0) continue;
-            printf("\b \b");
-            passwd[--i] = '\0';
-        }
-        else if (i == length - 1) {
-            printf("\nPassword too long!\n");
+    while (1) {
+        printf("Please input your password (maximum %llu characters): ", length - 1);
+        if (length == 0) {
+            printf("Password too long!\n");
             exit(1);
         }
-        else {
-            printf("*");
-            passwd[i++] = ch;
-        }
-    }
-    putchar('\n');
-    passwd[i] = '\0';
-
-    // if the type is REGISTER, get the password again to confirm
-    if (type == REGISTER) {
-        string passwd_confirm = (string)malloc(length * sizeof(char));
         char ch;
         int i = 0;
-        printf("Please confirm your password: ");
         while ((ch = getch()) != '\r') {
             if (ch == '\b') {
                 if (i == 0) continue;
                 printf("\b \b");
-                passwd_confirm[--i] = '\0';
+                passwd[--i] = '\0';
             }
             else if (i == length - 1) {
                 printf("\nPassword too long!\n");
@@ -92,17 +69,42 @@ static void get_passwd(string passwd, size_t length, LOGIN_TYPE type) {
             }
             else {
                 printf("*");
-                passwd_confirm[i++] = ch;
+                passwd[i++] = ch;
             }
         }
         putchar('\n');
-        passwd_confirm[i] = '\0';
-        if (strcmp(passwd, passwd_confirm) != 0) {
-            printf("Password not match!\n");
-            free(passwd_confirm);
-            exit(1);
+        passwd[i] = '\0';
+        if (type == LOGIN) break;
+
+        // if the type is REGISTER, get the password again to confirm
+        if (type == REGISTER) {
+            string passwd_confirm = (string)malloc(length * sizeof(char));
+            char ch;
+            int i = 0;
+            printf("Please confirm your password: ");
+            while ((ch = getch()) != '\r') {
+                if (ch == '\b') {
+                    if (i == 0) continue;
+                    printf("\b \b");
+                    passwd_confirm[--i] = '\0';
+                }
+                else if (i == length - 1) {
+                    printf("\nPassword too long!\n");
+                    exit(1);
+                }
+                else {
+                    printf("*");
+                    passwd_confirm[i++] = ch;
+                }
+            }
+            putchar('\n');
+            passwd_confirm[i] = '\0';
+            if (strcmp(passwd, passwd_confirm) == 0) {
+                free(passwd_confirm);
+                break;
+            }
+            printf("Password not match, please set again.\n");
         }
-        free(passwd_confirm);
     }
 }
 
