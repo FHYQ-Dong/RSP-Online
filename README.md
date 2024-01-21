@@ -15,11 +15,10 @@
    ```
 2. run client by
 
-   ```bash
+   ```
    client.exe
    ```
-
-   3. play under the instruction!
+3. play under instruction!
 
 ## Build
 
