@@ -1,3 +1,4 @@
+/*File for client web connection*/
 #include "../include/webconn.h"
 
 static int conn_connect(Connection conn, char *ip, int port);

@@ -1,3 +1,4 @@
+/*File for hash code generation*/
 // src/hash.c
 
 #include "../include/hash.h"
