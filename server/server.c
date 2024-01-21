@@ -131,7 +131,7 @@ lazy find_max(player playing[],lazy player_num){
 }
 
 /*indirect recursion*/
-char judge_end(player[],lazy,lazy);
+char judge_end(player[],lazy,lazy,lazy);
 
 /*funtion of offering additional round to play to process ties*/
 char sudden(player playing[],lazy player_num){
@@ -209,7 +209,7 @@ char play(player playing[],lazy player_num,lazy max_point){
 	return 0;
 }
 
-void main(){
+int main(){
 	lazy player_num,max_point,i;
 	player playing[50];
 	printf("player_num:");
@@ -227,4 +227,5 @@ void main(){
 		fflush(stdin);
 	}
 	play(playing,player_num,max_point);
+	return 0;
 }

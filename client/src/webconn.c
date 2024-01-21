@@ -27,12 +27,12 @@ Connection new_Connection(){
 	}
 
     int send_buf_size = 2048;
-    if (setsockopt(conn.sock , SOL_SOCKET , SO_SNDBUF , &send_buf_size , sizeof(send_buf_size)) == SOCKET_ERROR) {
+    if (setsockopt(conn.sock , SOL_SOCKET , SO_SNDBUF , (const char*)&send_buf_size , sizeof(send_buf_size)) == SOCKET_ERROR) {
         printf("setsockopt() failed with error code %d\n", WSAGetLastError());
         exit(1);
     }
     int recv_buf_size = 2048;
-    if (setsockopt(conn.sock , SOL_SOCKET , SO_RCVBUF , &recv_buf_size , sizeof(recv_buf_size)) == SOCKET_ERROR) {
+    if (setsockopt(conn.sock , SOL_SOCKET , SO_RCVBUF , (const char*)&recv_buf_size , sizeof(recv_buf_size)) == SOCKET_ERROR) {
         printf("setsockopt() failed with error code %d\n", WSAGetLastError());
         exit(1);
     }
@@ -83,7 +83,6 @@ static int conn_send(Connection conn, char *data, int len) {
 static int conn_recv(Connection conn, char *data) {
     char buf[4] = {0}; recv(conn.sock, buf, 4, 0); 
     int len = ntohl(*(int*)buf);
-    printf("len: %d\n", len);
     int tmplen = len;
     while (tmplen) {
         int ret = recv(conn.sock, data, tmplen, 0);
@@ -93,7 +92,6 @@ static int conn_recv(Connection conn, char *data) {
             return SOCKET_ERROR;
         }
         tmplen -= ret;
-        printf("data: %s, tmplen: %d\n", data, tmplen);
         data += ret;
     }
     return len;

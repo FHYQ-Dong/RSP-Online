@@ -1,6 +1,8 @@
 #include "../include/webconn.h"
 
 Connection::Connection(const char ip[16], u_short port) {
+    this->sock = INVALID_SOCKET;
+    strcpy(this->ip, ip); this->port = port;
     WORD sockVersion = MAKEWORD(2, 2);
 	WSADATA data;
 	if (WSAStartup(sockVersion, &data) != 0) {
@@ -31,12 +33,14 @@ Connection::Connection(const char ip[16], u_short port) {
     }
 }
 
-Connection::Connection(SOCKET s) {
+Connection::Connection(SOCKET s, char ip[16], u_short port) {
     this->sock = s;
+    strcpy(this->ip, ip); this->port = port;
 }
 
 Connection::Connection() {
     this->sock = INVALID_SOCKET;
+    this->ip[0] = '\0'; this->port = 0;
 }
 
 Connection Connection::accept() {
@@ -50,7 +54,8 @@ Connection Connection::accept() {
         // this->close();
         // exit(1);
     }
-    Connection conn(client_sock);
+    Connection conn(client_sock, this->ip, this->port);
+    printf("accept connection from %s:%d\n", inet_ntoa(remoteAddr.sin_addr), ntohs(remoteAddr.sin_port));
     return conn;
 }
 
@@ -76,7 +81,7 @@ int Connection::close() {
     return 0;
 }
 
-int Connection::send(char *data, int len) {
+int Connection::send(const char *data, int len) {
     char buf[4] = {0}; *(int*)buf = htonl(len);
     if (::send(this->sock, buf, 4, 0) == SOCKET_ERROR) {
         printf("send error!\n");

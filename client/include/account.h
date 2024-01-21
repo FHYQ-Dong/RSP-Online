@@ -21,7 +21,7 @@ typedef struct Account {
     char username[MAX_USERNAME_LENGTH];
     char passwd[MAX_PASSWD_LENGTH];
     unsigned char passwd_hash[SHA256_BLOCK_SIZE];
-
+    int credit;
     void (*login_account)(struct Account *account);
     void (*register_account)(struct Account *account);
     void (*to_str)(struct Account *account, string str);
