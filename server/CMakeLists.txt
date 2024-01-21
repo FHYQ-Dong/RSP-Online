@@ -3,22 +3,19 @@ cmake_minimum_required(VERSION 3.12)
 
 # C_version
 set(CMAKE_C_STANDARD 99)
+# CXX_version
+set(CMAKE_CXX_STANDARD 11)
 
 # Project name
-project(SSP-client)
-
-# Build standalone executable
-set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc -static-libstdc++")
+project(SSP-server)
 
 # Add your source files here
 AUX_SOURCE_DIRECTORY(src/ SOURCES)
 # Add your header filessource directory here
 AUX_SOURCE_DIRECTORY(include/ HEADERS)
-# Add your library files here
-# AUX_SOURCE_DIRECTORY(lib/ LIBS)
 
 # Add executable target
-add_executable(${PROJECT_NAME} client.c ${SOURCES} ${HEADERS})
+add_executable(${PROJECT_NAME} server.cpp ${SOURCES} ${HEADERS})
 
 # Link Libraries
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ws2_32.lib)

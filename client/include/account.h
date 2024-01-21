@@ -9,7 +9,7 @@
 #include "hash.h"
 #pragma warning(disable: 4996)
 
-#define MAX_ACCOUNT_LENGTH 50
+#define MAX_USERNAME_LENGTH 50
 #define MAX_PASSWD_LENGTH 50
 typedef char* string;
 
@@ -18,7 +18,7 @@ typedef int LOGIN_TYPE;
 #define REGISTER 1
 
 typedef struct Account {
-    char username[MAX_ACCOUNT_LENGTH];
+    char username[MAX_USERNAME_LENGTH];
     char passwd[MAX_PASSWD_LENGTH];
     unsigned char passwd_hash[SHA256_BLOCK_SIZE];
 

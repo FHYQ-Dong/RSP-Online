@@ -2,11 +2,11 @@
 
 #include "../include/account.h"
 
-static void get_username(string username, size_t length, LOGIN_TYPE type);
-static void get_passwd(string passwd, size_t length, LOGIN_TYPE type);
+static void get_username(char* username, size_t length, LOGIN_TYPE type);
+static void get_passwd(char* passwd, size_t length, LOGIN_TYPE type);
 static void login_account(Account *account);
 static void register_account(Account *account);
-static void to_str(Account *account, string str);
+static void to_str(Account *account, char* str);
 
 Account new_Account() {
     /*
@@ -14,7 +14,7 @@ Account new_Account() {
     * @description: create a new Account object
     */
     Account account;
-    memset(account.username, 0, MAX_ACCOUNT_LENGTH);
+    memset(account.username, 0, MAX_USERNAME_LENGTH);
     memset(account.passwd, 0, MAX_PASSWD_LENGTH);
     memset(account.passwd_hash, 0, SHA256_BLOCK_SIZE);
     
@@ -25,7 +25,7 @@ Account new_Account() {
 }
 
 
-static void get_username(string username, size_t length, LOGIN_TYPE type) {
+static void get_username(char* username, size_t length, LOGIN_TYPE type) {
     /*
     * @param username: the buffer to store the username
     * @param length: the length of the buffer
@@ -45,7 +45,7 @@ static void get_username(string username, size_t length, LOGIN_TYPE type) {
     }
 }
 
-static void get_passwd(string passwd, size_t length, LOGIN_TYPE type) {
+static void get_passwd(char* passwd, size_t length, LOGIN_TYPE type) {
     /*
     * @param passwd: the buffer to store the password
     * @param length: the length of the buffer
@@ -80,7 +80,7 @@ static void get_passwd(string passwd, size_t length, LOGIN_TYPE type) {
 
         // if the type is REGISTER, get the password again to confirm
         if (type == REGISTER) {
-            string passwd_confirm = (string)malloc(length * sizeof(char));
+            char* passwd_confirm = (char*)malloc(length * sizeof(char));
             char ch;
             int i = 0;
             printf("Please confirm your password: ");
@@ -115,8 +115,8 @@ static void login_account(Account *account) {
     * @param account: the account to store the username and password
     * @description: login an account
     */
-    get_username(account->username, MAX_ACCOUNT_LENGTH, LOGIN);
-    get_passwd(account->passwd, MAX_ACCOUNT_LENGTH, LOGIN);
+    get_username(account->username, MAX_USERNAME_LENGTH, LOGIN);
+    get_passwd(account->passwd, MAX_USERNAME_LENGTH, LOGIN);
     hash_with_salt(account->passwd, strlen(account->passwd), account->passwd_hash);
 }
 
@@ -125,19 +125,19 @@ static void register_account(Account *account) {
     * @param account: the account to store the username and password
     * @description: register an account
     */
-    get_username(account->username, MAX_ACCOUNT_LENGTH, REGISTER);
-    get_passwd(account->passwd, MAX_ACCOUNT_LENGTH, REGISTER);
+    get_username(account->username, MAX_USERNAME_LENGTH, REGISTER);
+    get_passwd(account->passwd, MAX_USERNAME_LENGTH, REGISTER);
     hash_with_salt(account->passwd, strlen(account->passwd), account->passwd_hash);
 }
 
-void to_str(Account *account, string str) {
+void to_str(Account *account, char* str) {
     /*
     * @param account: the account to be converted
-    * @param str: the buffer to store the converted string
-    * @description: convert an account to string
+    * @param str: the buffer to store the converted char*
+    * @description: convert an account to char*
     */
-    for (int i = 0; i < MAX_ACCOUNT_LENGTH; i++) {
+    for (int i = 0; i < MAX_USERNAME_LENGTH; i++) {
         str[i] = account->username[i];
-        str[i + MAX_ACCOUNT_LENGTH] = account->passwd[i];
+        str[i + MAX_USERNAME_LENGTH] = account->passwd[i];
     }
 }

@@ -27,7 +27,7 @@ Connection connet_to_server() {
 	Connection conn = new_Connection();
     CONN(conn, ip, port);
 	char welcome_msg[MSG_LEN] = {0};
-	RECV(conn, welcome_msg, MSG_LEN);
+	RECV(conn, welcome_msg);
 	printf("%s\n", welcome_msg);
 
 	return conn;
@@ -46,7 +46,7 @@ Account login_or_register(Connection conn) {
 			
 			SEND(conn, account_info, MSG_LEN);
 			char login_result[MSG_LEN] = {0};
-			RECV(conn, login_result, MSG_LEN);
+			RECV(conn, login_result);
 			if (strcmp(login_result, LOGIN_SUCCESS) == 0) {
 				printf("login success\n");
 				break;
@@ -72,7 +72,7 @@ Account login_or_register(Connection conn) {
 
 			SEND(conn, account_info, MSG_LEN);
 			char register_result[MSG_LEN] = {0};
-			RECV(conn, register_result, MSG_LEN);
+			RECV(conn, register_result);
 			if (strcmp(register_result, REGISTER_SUCCESS) == 0) {
 				printf("register success\n");
 				break;
@@ -87,7 +87,7 @@ Account login_or_register(Connection conn) {
 	return account;
 }
 
-void create_join_room(Connection conn) {
+void list_create_join_room(Connection conn) {
 	/*
 		* room_id: u_int
 	*/
@@ -99,7 +99,7 @@ void create_join_room(Connection conn) {
 			char msg[MSG_LEN] = "LIST";
 			SEND(conn, msg, MSG_LEN);
 			u_int room_id[MAX_ROOM] = {0};
-			RECV(conn, (char*)room_id, MSG_LEN);
+			RECV(conn, (char*)room_id);
 			for (int i=0; room_id[i]; ++i) 
 				room_id[i] = ntohl(room_id[i]);
 			printf("room id: ");
@@ -115,7 +115,7 @@ void create_join_room(Connection conn) {
 			char msg[MSG_LEN] = "CREATE";
 			SEND(conn, msg, MSG_LEN);
 			char room_id_str[MSG_LEN] = {0};
-			RECV(conn, room_id_str, MSG_LEN);
+			RECV(conn, room_id_str);
 			u_int room_id = *(u_int*)room_id_str;
 			printf("room %u created, you've already joined it.", room_id);
 		}
@@ -126,7 +126,7 @@ void create_join_room(Connection conn) {
 			*(u_int*)room_id_str = htonl(room_id);
 			SEND(conn, room_id_str, MSG_LEN);
 			char join_result[MSG_LEN] = {0};
-			RECV(conn, join_result, MSG_LEN);
+			RECV(conn, join_result);
 			if (strcmp(join_result, ROOM_JOINED) == 0) {
 				printf("join room %u success\n", room_id);
 				break;
@@ -150,9 +150,11 @@ void create_join_room(Connection conn) {
 
 int main(int argc, char *argv[]) {
 
-	Connection ServerConnection = connet_to_server();
-	Account UserAccount = login_or_register(ServerConnection);
-	create_join_room(ServerConnection);
+	Connection ClientConnection = connet_to_server();
+	SEND(ClientConnection, "hello", 5);
+	ClientConnection.close(ClientConnection);
+	// Account UserAccount = login_or_register(ClientConnection);
+	// list_create_join_room(ClientConnection);
 
 	return 0;
 }
