@@ -9,6 +9,10 @@ set(CMAKE_CXX_STANDARD 11)
 # Project name
 project(RSP-server)
 
+# Build standalone executable
+set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc -static-libstdc++")
+set(CMAKE_EXE_LINKER_FLAGS "-static")
+
 # Add your source files here
 AUX_SOURCE_DIRECTORY(src/ SOURCES)
 # Add your header filessource directory here

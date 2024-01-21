@@ -9,7 +9,7 @@
 #include "./include/webconn.h"
 #include "./include/account.h"
 #include "./include/room.h"
-#define DEBUG
+
 
 // login and register
 #define LOGIN_NO_ACCOUNT "no such account"
@@ -280,9 +280,8 @@ int main(int argc, char *argv[]) {
             ClientConnection.close();
             continue;
         }
-        // std::thread t(th_func, ClientConnection, &UserAccounts, &Rooms);
-        th_func(ClientConnection, &UserAccounts, &Rooms);
-        // t.detach();
+        std::thread t(th_func, ClientConnection, &UserAccounts, &Rooms);
+        t.detach();
     }
     WSACleanup();
 }
