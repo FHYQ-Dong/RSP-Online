@@ -1,3 +1,4 @@
+/*File for account creation and log-in*/
 // src/account.c
 
 #include "../include/account.h"
