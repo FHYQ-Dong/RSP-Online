@@ -156,8 +156,11 @@ char judge_end(player playing[],lazy player_num,lazy upperpoint,lazy repetition)
 	if (repetition){
 		lazy i=0,rank_temp=0,same_temp=0;
 		for (;i<player_num;i++){
-			if ((playing+i)->point_player==(playing+i+1)->point_player)
+			if ((playing+i)->point_player==(playing+i+1)->point_player){
+				if (i==0||(i!=0 && (playing+i)->point_player!=(playing+i-1)->point_player))
+					rank_temp=i;
 				same_temp++;
+			}
 			else if (same_temp){
 				sudden(playing+rank_temp,same_temp+1);
 				same_temp=0;
@@ -188,7 +191,7 @@ char play(player playing[],lazy player_num,lazy max_point){
 	/*output the ranks of players and calculate credits*/
 	if (player_num%2){/*odd players*/
 		int lstd=-(((int)player_num)/2),l=-lstd,*rk=rank_standard;
-		for (;l>=player_num/2;l--)
+		for (;l>=lstd;l--)
 			*(rk++)=l;
 	}
 	else{/*even players*/
@@ -220,7 +223,7 @@ void main(){
 		printf("Name of No.%hu:",i+1);
 		gets(playing[i].username);
 		printf("Credit of %s:",playing[i].username);
-		scanf("%d",playing[i].credit);
+		scanf("%d",&playing[i].credit);
 		fflush(stdin);
 	}
 	play(playing,player_num,max_point);

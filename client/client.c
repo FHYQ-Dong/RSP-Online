@@ -23,6 +23,9 @@ void print_guide(){
 	printf("Nevertheless, if a couple of players get the same points when ranked,\n");
 	printf("to avoid ties, players in a tie will be given one more round to compete.\n");\
 	printf("If there are still ties after the additional round, another additional round will be given.\n");
+	printf("Players that are not included in the additional round will not be reranked,\n");
+	printf("though other players' points may get over them.\n");
+	printf("After each game, the credit of players will be changed accoreding to the rank in the game.\n");
 	printf("You will see the rooms of players here and you can choose one to join.\n");
 	printf("Of course, if you are not satisfied with the modes the current rooms are adopting,\n");
 	printf("You can create a new room and decide your prefered mode.\n");
