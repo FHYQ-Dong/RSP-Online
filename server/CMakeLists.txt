@@ -7,7 +7,7 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 11)
 
 # Project name
-project(SSP-server)
+project(RSP-server)
 
 # Add your source files here
 AUX_SOURCE_DIRECTORY(src/ SOURCES)
