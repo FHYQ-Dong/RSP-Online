@@ -145,7 +145,6 @@ void list_create_join_room(Connection conn) {
 			create_room:
 			int max_players; printf("max players: "); max_players = readint(); fflush(stdin);
 			int max_score; printf("max score: "); max_score = readint(); fflush(stdin);
-			printf("%d %d\n", max_players, max_score); // debug
 			if (max_players < 1 || max_score < 1) {
 				printf("invalid players or score\n\n");
 				goto create_room;
