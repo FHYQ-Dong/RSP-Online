@@ -138,7 +138,6 @@ void Room::__th_func() {
             Sleep(500);
         }
     }
-    lock.unlock();
 }
 
 unsigned int RoomPool::create_room(int max_member, int max_score) {
@@ -179,6 +178,11 @@ void RoomPool::start_game(unsigned int id) {
 }
 
 ROOM_TYPE RoomPool::has_room(unsigned int id) {
+    std::map<unsigned int, Room>::iterator it;
+    for (it = rooms.begin(); it != rooms.end(); ) {
+        if (it->second.max_member == 0) rooms.erase(it++);
+        else it++;
+    }
     if (rooms.find(id) == rooms.end()) return ROOM_NOT_EXIST;
     else if (rooms[id].cur_member == rooms[id].max_member) return ROOM_FULL;
     else return ROOM_AVAILABLE;

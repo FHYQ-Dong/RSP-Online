@@ -4,12 +4,13 @@
 #include <cstdlib>
 #include <thread>
 #include <string>
-#include <windows.h>
 #include <bits/std_mutex.h>
 #include "./include/webconn.h"
 #include "./include/account.h"
 #include "./include/room.h"
+#include <windows.h>
 
+#define DEBUG
 
 // login and register
 #define LOGIN_NO_ACCOUNT "no such account"
@@ -96,6 +97,10 @@ int th_func(Connection conn, AccountPool* UserAccounts, RoomPool* Rooms) {
                 return -1;
             }
             char option = msg[0];
+            if (option == 'q') {
+                conn.close();
+                return 0;
+            }
             if (option == 'l') {
                 std::string res = Rooms->list_rooms();
                 SEND(conn, res.c_str(), strlen(res.c_str()))
@@ -204,8 +209,10 @@ int th_func(Connection conn, AccountPool* UserAccounts, RoomPool* Rooms) {
             while (true) {
                 Rooms->rooms[room_id].lock.lock();
                 if (Rooms->rooms[room_id].judged) {
-                    if (Rooms->rooms[room_id].cur_score >= Rooms->rooms[room_id].max_score) 
+                    if (Rooms->rooms[room_id].cur_score >= Rooms->rooms[room_id].max_score) {
+                        printf("user: %s, score: %d, game over\n", account.username, Rooms->rooms[room_id].cur_score); 
                         break;
+                    }
                     if (conn.send(Rooms->rooms[room_id].result.c_str(), strlen(Rooms->rooms[room_id].result.c_str())) == SOCKET_ERROR) {
                         std::cerr << "send error!" << std::endl;
                         conn.close();
@@ -216,6 +223,7 @@ int th_func(Connection conn, AccountPool* UserAccounts, RoomPool* Rooms) {
                         mtx.lock();
                         UserAccounts->update_account(account);
                         mtx.unlock();
+                        Rooms->rooms[room_id].lock.unlock();
                         return -1;
                     }
                     Rooms->rooms[room_id].judged--;
@@ -226,9 +234,9 @@ int th_func(Connection conn, AccountPool* UserAccounts, RoomPool* Rooms) {
                 Sleep(500);
             }
             if (Rooms->rooms[room_id].cur_score >= Rooms->rooms[room_id].max_score) {
+                
                 account = Rooms->rooms[room_id].members[account.username].account;
                 std::string res = Rooms->rooms[room_id].result + "game over! current credit: " + std::to_string(account.credit) + '\n';
-                Rooms->rooms[room_id].lock.unlock();
                 if (conn.send(res.c_str(), strlen(res.c_str())) == SOCKET_ERROR) {
                     std::cerr << "send error!" << std::endl;
                     conn.close();
@@ -239,11 +247,11 @@ int th_func(Connection conn, AccountPool* UserAccounts, RoomPool* Rooms) {
                     mtx.lock();
                     UserAccounts->update_account(account);
                     mtx.unlock();
+                    Rooms->rooms[room_id].lock.unlock();
                     return -1;
                 }
-                Rooms->rooms[room_id].lock.lock();
                 Rooms->remove_member(room_id, account);
-                Rooms->rooms[room_id].lock.lock();
+                Rooms->rooms[room_id].lock.unlock();
                 break;
             }
         }

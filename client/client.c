@@ -48,11 +48,11 @@ Account login_or_register(Connection conn) {
 			char login_result[MSG_LEN] = {0};
 			RECV(conn, login_result);
 			if (strcmp(login_result, LOGIN_NO_ACCOUNT) == 0) {
-				printf("no such account\n");
+				printf("no such account\n\n");
 				continue;
 			}
 			else if (strcmp(login_result, LOGIN_WRONG_PASSWD) == 0) {
-				printf("wrong password\n");
+				printf("wrong password\n\n");
 				continue;
 			}
 			else {
@@ -76,7 +76,7 @@ Account login_or_register(Connection conn) {
 			}
 			else {
 				account.credit = atoi(register_result);
-				printf("register success, your credit is %d\n", account.credit);
+				printf("register success, your credit is %d\n\n", account.credit);
 				break;
 			}
 		}
@@ -87,7 +87,6 @@ Account login_or_register(Connection conn) {
 
 void print_guide(){
 	/*Print user guide in the beginning*/
-	printf("\n");
 	printf("User guide:\n");
 	printf(" * This is the home page of the Rock-Paper-Scissors game program.\n");
 	printf(" * In each game, you can enter 'r', 'p' or 's' represent 'rock', 'paper' or 'scissors' to play the game.\n");
@@ -97,10 +96,10 @@ void print_guide(){
 	printf(" * In each round, players will earn more points, which is calculated to be how many players you've won over in the single round.\n");
 	printf(" * You can decide the minimum point reached to win in the game, which means that if a player gets not less than this point after a round, players will be ranked and the game will end.\n");
 	printf(" * A tie is allowed in each game.\n");
-	printf(" * After each game, the credit of players will be changed accoreding to the rank in the game.\n");
+	printf(" * After each game, the credit of players will be changed accoreding to the rank in the game:\n\tthe first one(s) will get 1 credits, the last one(s) will get -1 credits, and the rest will get nothing.\n");
+	printf(" * Especially, if you quit the game while others are playing, you will get -2 credits.\n");
 	printf(" * You will see the rooms of players here and you can choose one to join.\n");
-	printf(" * Of course, if you are not satisfied with the modes the current rooms are adopting,\n");
-	printf(" * You can create a new room and decide your prefered mode.\n");
+	printf(" * Of course, if you are not satisfied with the modes the current rooms are adopting, you can create a new room and decide your prefered mode.\n");
 	printf(" * That's all. Wish you a happy playing experience.\n\n");
 }
 
@@ -109,11 +108,19 @@ void list_create_join_room(Connection conn) {
 		* room_id: u_int
 	*/
 	while (1) {
-		printf("list/create/join room (l/c/j): ");
+		printf("list_room/create_room/join_room/quit (l/c/j/q): ");
 		char buf; // scanf("%c", &buf);
 		char choice; scanf("%c%c", &choice, &buf);
 
-		if (choice == 'l') {
+		if (choice == 'q') {
+			char msg[MSG_LEN] = "l";
+			SEND(conn, msg, strlen(msg));
+			printf("quitting...\n");
+			RECV(conn, msg);
+			conn.close(conn);
+			exit(0);
+		}
+		else if (choice == 'l') {
 			char msg[MSG_LEN] = "l";
 			SEND(conn, msg, strlen(msg));
 			memset(msg, 0, sizeof(msg));
