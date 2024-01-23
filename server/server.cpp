@@ -10,7 +10,7 @@
 #include "./include/room.h"
 #include <windows.h>
 
-#define DEBUG
+// #define DEBUG
 
 // login and register
 #define LOGIN_NO_ACCOUNT "no such account"
