@@ -18,6 +18,16 @@
 #define ROOM_NO_ROOM "no such room"
 #define ROOM_FULL "room full"
 
+int readint() {
+	char ch; int x = 0, f = 1;
+	while (ch = getchar()) {
+		if (ch == '-') f = -1;
+		else if (ch >= '0' && ch <= '9') x = x * 10 + ch - '0';
+		else break;
+	}
+	return x * f;
+}
+
 Connection connet_to_server() {
 	printf("server address: ");
 	char ip[16]; scanf("%s", ip);
@@ -133,8 +143,9 @@ void list_create_join_room(Connection conn) {
 		else if (choice == 'c') {
 			char msg[MSG_LEN] = "c";
 			create_room:
-			int max_players; printf("max players: "); scanf("%d", &max_players);
-			int max_score; printf("max score: "); scanf("%d", &max_score);
+			int max_players; printf("max players: "); max_players = readint(); fflush(stdin);
+			int max_score; printf("max score: "); max_score = readint(); fflush(stdin);
+			printf("%d %d\n", max_players, max_score); // debug
 			if (max_players < 1 || max_score < 1) {
 				printf("invalid players or score\n\n");
 				goto create_room;
@@ -152,7 +163,7 @@ void list_create_join_room(Connection conn) {
 		}
 		else if (choice == 'j') {
 			printf("room_id: ");
-			int room_id; scanf("%d", &room_id);
+			int room_id; room_id = readint();
 			fflush(stdin);
 			char room_id_str[MSG_LEN] = "j";
 			itoa(room_id, room_id_str+1, 10);
