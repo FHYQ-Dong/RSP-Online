@@ -37,7 +37,7 @@ Account login_or_register(Connection conn) {
 	while (1) {
 		printf("login/register (l/r): ");
 		char choice; scanf("%c", &choice);
-		char buf; scanf("%c", &buf);
+		fflush(stdin);
 
 		if (choice == 'l') {
 			account.login_account(&account);
@@ -109,8 +109,8 @@ void list_create_join_room(Connection conn) {
 	*/
 	while (1) {
 		printf("list_room/create_room/join_room/quit (l/c/j/q): ");
-		char buf; // scanf("%c", &buf);
-		char choice; scanf("%c%c", &choice, &buf);
+		char choice; scanf("%c", &choice);
+		fflush(stdin);
 
 		if (choice == 'q') {
 			char msg[MSG_LEN] = "l";
@@ -132,9 +132,14 @@ void list_create_join_room(Connection conn) {
 		}
 		else if (choice == 'c') {
 			char msg[MSG_LEN] = "c";
+			create_room:
 			int max_players; printf("max players: "); scanf("%d", &max_players);
 			int max_score; printf("max score: "); scanf("%d", &max_score);
-			char buf; scanf("%c", &buf);
+			if (max_players < 1 || max_score < 1) {
+				printf("invalid players or score\n\n");
+				goto create_room;
+			}
+			fflush(stdin);
 			char max_players_str[MSG_LEN] = {0}; itoa(max_players, max_players_str, 10);
 			char max_score_str[MSG_LEN] = {0}; itoa(max_score, max_score_str, 10);
 			strcat(msg, max_players_str); strcat(msg, " "); strcat(msg, max_score_str);
@@ -148,7 +153,7 @@ void list_create_join_room(Connection conn) {
 		else if (choice == 'j') {
 			printf("room_id: ");
 			int room_id; scanf("%d", &room_id);
-			char buf; scanf("%c", &buf);
+			fflush(stdin);
 			char room_id_str[MSG_LEN] = "j";
 			itoa(room_id, room_id_str+1, 10);
 			SEND(conn, room_id_str, strlen(room_id_str));
@@ -164,7 +169,7 @@ void list_create_join_room(Connection conn) {
 			}
 			else if (strcmp(join_result, ROOM_FULL) == 0) {
 				printf("room full\n\n");
-				break;
+				continue;
 			}
 			else {
 				printf("internal error\n\n");
@@ -179,7 +184,8 @@ void play(Connection conn) {
 	while (1) {
 		while (1) {
 			printf("rock/paper/scissors/quit (r/p/s/q): ");
-			char choice, buf; scanf("%c%c", &choice, &buf);
+			char choice; scanf("%c", &choice);
+			fflush(stdin);
 			choice = choice < 'a' ?	choice - 'A' + 'a' : choice;
 			if (choice == 'r' || choice == 'p' || choice == 's' || choice == 'q') {
 				if (choice == 'q') {

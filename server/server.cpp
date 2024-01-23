@@ -187,7 +187,7 @@ int th_func(Connection conn, AccountPool* UserAccounts, RoomPool* Rooms) {
                 }
                 Rooms->rooms[room_id].lock.lock();
                 Rooms->remove_member(room_id, account);
-                Rooms->remove_room(room_id);
+                // Rooms->remove_room(room_id);
                 Rooms->rooms[room_id].lock.unlock();
                 break;
             }

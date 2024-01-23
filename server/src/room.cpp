@@ -126,8 +126,7 @@ void Room::__th_func() {
             for (it = this->members.begin(); it != this->members.end(); it++) {
                 Player player = it->second;
                 if (player.score == mx) player.account.credit += 1;
-                else if (player.score == mn) player.account.credit -= 1;
-                else ;
+                if (player.score == mn) player.account.credit -= 1;
                 it->second = player;
             }
             lock.unlock();
@@ -146,9 +145,9 @@ unsigned int RoomPool::create_room(int max_member, int max_score) {
     return room.id;
 }
 
-void RoomPool::remove_room(unsigned int id) {
-    rooms.erase(id);
-}
+// void RoomPool::remove_room(unsigned int id) {  
+//     rooms.erase(id);
+// }
 
 void RoomPool::add_member(unsigned int id, Account account) {
     rooms[id].add_member(account);
@@ -156,7 +155,7 @@ void RoomPool::add_member(unsigned int id, Account account) {
 
 void RoomPool::remove_member(unsigned int id, Account account) {
     rooms[id].remove_member(account);
-    if (rooms[id].cur_member == 0) remove_room(id);
+    // if (rooms[id].cur_member == 0) remove_room(id);
 }
 
 std::string RoomPool::list_rooms() {
