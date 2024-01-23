@@ -96,7 +96,7 @@ void print_guide(){
 	printf(" * In each round, players will earn more points, which is calculated to be how many players you've won over in the single round.\n");
 	printf(" * You can decide the minimum point reached to win in the game, which means that if a player gets not less than this point after a round, players will be ranked and the game will end.\n");
 	printf(" * A tie is allowed in each game.\n");
-	printf(" * After each game, the credit of players will be changed accoreding to the rank in the game:\n\t- the first one(s) will get 1 credits,\n\t- the last one(s) will get -1 credits,\n\t- and the rest will get nothing.\n");
+	printf(" * After each game, the credit of players will be changed according to the rank in the game:\n\t- the first one(s) will get 1 credits,\n\t- the last one(s) will get -1 credits,\n\t- and the rest will get nothing.\n");
 	printf(" * Especially, if you quit the game while others are playing, you will get -2 credits.\n");
 	printf(" * You will see the rooms of players here and you can choose one to join.\n");
 	printf(" * Of course, if you are not satisfied with the modes the current rooms are adopting, you can create a new room and decide your prefered mode.\n");
